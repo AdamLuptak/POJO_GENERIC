@@ -6,7 +6,6 @@ import entities.User;
 
 public class FactoryDAO {
 
-	@SuppressWarnings("rawtypes")
 	public static GenerciDAOImpl getShape(String factoryType) {
 
 		if (factoryType == null) {

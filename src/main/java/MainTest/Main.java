@@ -3,11 +3,7 @@ package MainTest;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
+import entities.ACL;
 import entities.Group;
 import entities.User;
 import genericDAO.FactoryDAO;
@@ -34,6 +30,7 @@ public class Main {
 		List<User> users = Arrays.asList(usr1, usr2, usr3, usr4, usr5);
 
 		List<User> users2 = Arrays.asList(usr6, usr7, usr8, usr9, usr10);
+
 		// GenerciDAOImpl<User, Long> userDAO = new GenerciDAOImpl<User,
 		// Long>(User.class);
 		// GenerciDAOImpl<Group, Long> groupDAO = new GenerciDAOImpl<Group,
@@ -43,56 +40,81 @@ public class Main {
 
 		GenerciDAOImpl<Group, Long> groupDAO = FactoryDAO.getShape("Group");
 
-		// for (User user : users2) {
-		// userDAO.create(user);
-		// }
-		//
-		// for (int i = 0; i < 10; i++) {
-		// groupDAO.create(new Group("sdfs", "sdfsdsdf"));
-		// }
+		GenerciDAOImpl<ACL, Long> aclDAO = FactoryDAO.getShape("Acl");
 
-		
-		User usr = userDAO.read(1l);
-		Group temp = groupDAO.read(4l);
-		Group temp2 = groupDAO.read(6l);
-//		
-//		temp.setUser(usr);
-//		groupDAO.update(temp);
-//
-//		temp.setUser(usr);
-//		groupDAO.update(temp);
-//		
-//		temp2.setUser(usr);
-//		groupDAO.update(temp2);
+		/**
+		 * setup persistence.xml to value="create"
+		 */
+		initiallize(users2, userDAO, groupDAO, aclDAO);
 
-		
-		
+		/**
+		 * setup persistence.xml to value="update"
+		 */
+		// ACL acl = aclDAO.read(3l);
+		// User usr = userDAO.read(1l);
+		// Group temp = groupDAO.read(1l);
+		// Group temp2 = groupDAO.read(2l);
+
+		/**
+		 * setup relations between ACL and user and group
+		 */
+		// acl.setGroup(temp);
+		// acl.setUser(usr);
+		// aclDAO.update(acl);
+
+		/**
+		 * setup groups to user
+		 */
+		// temp.setUser(usr);
+		// groupDAO.update(temp);
+
+		// temp.setUser(usr);
+		// groupDAO.update(temp);
+
+		// temp2.setUser(usr);
+		// groupDAO.update(temp2);
+
 		// usr.setGroup(temp);
 		// userDAO.update(usr);
 		//
 		// usr.setGroup(temp2);
 		// userDAO.update(usr);
-		//
-		 groupDAO.delete(temp);
 
+		/**
+		 * delete specific element
+		 */
+		// groupDAO.delete(temp);
+		// aclDAO.delete(acl);
 		// userDAO.delete(usr);
 
-		// groupDAO.update(temp);
-		// userDAO.update(usr);
-
-		// userDAO.create(usr1);
-		// groupDAO.create(new Group("root", "vsetko vie"));
-		//
+		/**
+		 * update field in specific object
+		 */
 		// User findUser = userDAO.read(1l);
 		// System.out.println("stare meno " + findUser.getName());
-		// findUser.setName("zmenen meno");
+		// findUser.setName("Change name");
 		// userDAO.update(findUser);
 		// findUser = userDAO.read(1l);
-		// System.out.println("meno po zmene " + findUser.getName());
+		// System.out.println("name after change " + findUser.getName());
 		// userDAO.delete(findUser);
 		// userDAO.create(usr1);
 		//
 
+	}
+
+	private static void initiallize(List<User> users2, GenerciDAOImpl<User, Long> userDAO,
+			GenerciDAOImpl<Group, Long> groupDAO, GenerciDAOImpl<ACL, Long> aclDAO) {
+		for (User user : users2) {
+			userDAO.create(user);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			groupDAO.create(new Group("sdfs", "sdfsdsdf"));
+		}
+
+		for (int i = 0; i < 10; i++) {
+			aclDAO.create(new ACL("sdfs", "sdfsdsdf"));
+		}
 	}
 
 }

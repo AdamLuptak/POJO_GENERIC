@@ -1,7 +1,6 @@
 package genericDAO;
 
 import java.io.Serializable;
-
 import jpaHelper.JPAHelper;
 
 /**

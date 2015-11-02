@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,13 +32,18 @@ public class Group implements Serializable {
 	@ManyToMany(targetEntity = ACL.class, mappedBy = "groupAcl")
 	private List<ACL> acl = new ArrayList<ACL>();
 
+	/*
+	 * remove foreign keys
+	 */
 	@PreRemove
 	private void CleanRelationShip() {
-		List<User> tempList = new ArrayList<User>(user);
-		for (User c : tempList) {
-			c.getGroup().remove(this);
+
+		List<ACL> tempList = new ArrayList<ACL>(acl);
+		for (ACL c : tempList) {
+			if (c != null) {
+				c.getGroup().remove(this);
+			}
 		}
-		tempList = null;
 	}
 
 	public Group() {

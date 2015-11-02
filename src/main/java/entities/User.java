@@ -4,17 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
-
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Table(name = "\"User\"")
@@ -47,6 +42,28 @@ public class User implements Serializable {
 
 	@ManyToMany(targetEntity = ACL.class, mappedBy = "user")
 	private List<ACL> acl = new ArrayList<ACL>();
+
+	/*
+	 * remove foreign keys
+	 */
+	@PreRemove
+	private void CleanRelationShip() {
+
+		List<Group> tempList = new ArrayList<Group>(groupUser);
+		for (Group c : tempList) {
+			if (c != null) {
+				c.getUser().remove(this);
+			}
+		}
+
+		List<ACL> tempListAcl = new ArrayList<ACL>(acl);
+		for (ACL c : tempListAcl) {
+			if (c != null) {
+				c.getUser().remove(this);
+			}
+		}
+
+	}
 
 	public User() {
 	}

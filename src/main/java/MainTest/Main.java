@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 
 import entities.Group;
 import entities.User;
+import genericDAO.FactoryDAO;
 import genericDAO.GenerciDAOImpl;
 
 public class Main {
@@ -33,27 +34,46 @@ public class Main {
 		List<User> users = Arrays.asList(usr1, usr2, usr3, usr4, usr5);
 
 		List<User> users2 = Arrays.asList(usr6, usr7, usr8, usr9, usr10);
-		GenerciDAOImpl<User, Long> userDAO = new GenerciDAOImpl<User, Long>(User.class);
-		GenerciDAOImpl<Group, Long> groupDAO = new GenerciDAOImpl<Group, Long>(Group.class);
+		// GenerciDAOImpl<User, Long> userDAO = new GenerciDAOImpl<User,
+		// Long>(User.class);
+		// GenerciDAOImpl<Group, Long> groupDAO = new GenerciDAOImpl<Group,
+		// Long>(Group.class);
 
-		for (User user : users2) {
-			userDAO.create(user);
-		}
+		GenerciDAOImpl<User, Long> userDAO = FactoryDAO.getShape("User");
+
+		GenerciDAOImpl<Group, Long> groupDAO = FactoryDAO.getShape("Group");
+
+		// for (User user : users2) {
+		// userDAO.create(user);
+		// }
 		//
+		// for (int i = 0; i < 10; i++) {
 		// groupDAO.create(new Group("sdfs", "sdfsdsdf"));
-		// User usr = userDAO.read(2l);
-		// Group temp = groupDAO.read(3L);
-		// Group temp2 = groupDAO.read(4L);
-		// temp.setUser(usr);
-		// groupDAO.update(temp);
-		// temp.setUser(usr);
-		// groupDAO.update(temp2);
+		// }
+
+		
+		User usr = userDAO.read(1l);
+		Group temp = groupDAO.read(4l);
+		Group temp2 = groupDAO.read(6l);
+//		
+//		temp.setUser(usr);
+//		groupDAO.update(temp);
+//
+//		temp.setUser(usr);
+//		groupDAO.update(temp);
+//		
+//		temp2.setUser(usr);
+//		groupDAO.update(temp2);
+
+		
+		
 		// usr.setGroup(temp);
 		// userDAO.update(usr);
+		//
 		// usr.setGroup(temp2);
 		// userDAO.update(usr);
 		//
-		// groupDAO.delete(temp);
+		 groupDAO.delete(temp);
 
 		// userDAO.delete(usr);
 
